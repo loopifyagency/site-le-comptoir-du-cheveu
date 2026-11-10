@@ -13,6 +13,14 @@ python3 -m http.server 8000
 
 Puis ouvrir <http://localhost:8000>. (Passer par un serveur, pas par `file://`, pour que les polices se chargent.)
 
+## Déploiement (GitHub Pages)
+
+Le site est publié par le workflow `.github/workflows/pages.yml` à chaque fusion dans `main` (ou à la main depuis l'onglet Actions : « Run workflow »). Seuls `index.html` et `assets/` sont envoyés.
+
+Adresse attendue : <https://loopifyagency.github.io/site-le-comptoir-du-cheveu/>
+
+Réglage à faire une seule fois : **Settings > Pages > Build and deployment > Source = GitHub Actions**. Tous les chemins du site sont relatifs, il fonctionne aussi bien sous ce sous-dossier que sur un nom de domaine à la racine.
+
 ## Direction artistique
 
 **Le site est un comptoir de bistrot.** Ardoise noire, craie blanche, tickets de papier. Rustique et atypique, strictement noir et blanc.

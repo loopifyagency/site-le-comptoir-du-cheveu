@@ -1,0 +1,47 @@
+# Publie le site sur GitHub Pages à chaque fusion dans main (ou à la demande).
+# Seuls index.html et assets/ sont publiés : pas de README, ni de skills.
+# Réglage requis une fois : Settings > Pages > Build and deployment > Source = GitHub Actions.
+name: Déploiement GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Préparer le site
+        run: |
+          mkdir _site
+          cp index.html _site/
+          cp -r assets _site/
+          touch _site/.nojekyll
+
+      - name: Configurer Pages
+        uses: actions/configure-pages@v5
+
+      - name: Envoyer l'artefact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Déployer
+        id: deployment
+        uses: actions/deploy-pages@v4
